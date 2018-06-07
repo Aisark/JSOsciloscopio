@@ -1,0 +1,12 @@
+html,
+body {
+    height: 100% !important;
+}
+
+#osciloscope-row {
+    height: 50% !important;
+}
+
+#control-row {
+    height: 50% !important;
+}
