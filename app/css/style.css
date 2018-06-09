@@ -6441,7 +6441,7 @@ thead tr th {
 }
 
 thead tr th:last-child {
-    text-align: right;
+    /*text-align: right;*/
 }
 
 tbody tr th {

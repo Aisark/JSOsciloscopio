@@ -10,3 +10,19 @@ body {
 #control-row {
     height: 50% !important;
 }
+
+.comName:hover {
+    cursor: pointer;
+}
+
+.comName {
+    text-align: center;
+}
+
+.icon-device {
+    text-align: center;
+}
+
+th {
+    text-align: center
+}
