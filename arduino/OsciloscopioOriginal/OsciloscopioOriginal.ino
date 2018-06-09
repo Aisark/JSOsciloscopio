@@ -1,7 +1,7 @@
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   analogReference(EXTERNAL);
 
   Inicializa();
@@ -57,7 +57,6 @@ void Inicializa()
   caracter[3] = 'a';
   caracter[4] = 'r';
   caracter[5] = 'e';
-  
   while(1)
   {//Mientras no se inicialize no sale del ciclo
      if(Serial.available())
@@ -73,5 +72,21 @@ void Inicializa()
         }
       } 
   }
+  /*
+  115
+
+113
+
+117
+
+97
+
+114
+
+101
+
+13
+
+*/
   //Termina While
 }
