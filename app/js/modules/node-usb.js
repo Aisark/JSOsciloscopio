@@ -1,5 +1,6 @@
 const usbDetect = require('usb-detection')
 const SerialPort = require('serialport')
+const arduinoConect = require('./arduino-conect')
 
 var modelArduino = {
     Uno_R3: '0043',
@@ -41,11 +42,11 @@ function setItemList(port) {
 
     var itemList =
         `<tr>
-            <td id="${port.comName}">Desconectado</td>
-            <td>${port.comName}</td>
-            <td>${getModelArduino(port.productId)}</td>
+            <td id="${port.comName.replace('/dev/', '')}" class="comName"> <i class="fa fa-plug icon-device"></i> </td>
+            <td>${getModelArduino(port.productId)} ${port.comName}</td>
         </tr>`
     $('#devices-list').append(itemList)
+    arduinoConect.setEvent()
 }
 
 function getModelArduino(modelCode) {
