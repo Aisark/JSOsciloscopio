@@ -42,8 +42,10 @@ function setItemList(port) {
 
     var itemList =
         `<tr>
-            <td id="${port.comName.replace('/dev/', '')}" class="comName"> <i class="fa fa-plug icon-device"></i> </td>
-            <td>${getModelArduino(port.productId)} ${port.comName}</td>
+            <td id="${port.comName.replace('/dev/', '')}" class="comName">
+                <button type="button" class="btn btn-outline-primary">conectar</button>
+            </td>
+            <td>${port.comName}</td>
         </tr>`
     $('#devices-list').append(itemList)
     arduinoConect.setEvent()

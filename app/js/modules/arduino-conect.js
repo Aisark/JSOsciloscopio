@@ -1,7 +1,10 @@
 const SerialPort = require('serialport');
+const Chart = require('./grafico').chart;
 
 let _isConectArduino = false
-let _arduino;
+let _arduino = null;
+let _timer = null;
+let _isReading = false;
 let _configArduino = {
     baudRate: 9600
 }
@@ -67,10 +70,14 @@ let _isReadSend = false
 function arduinoRead() {
     _arduino.on('data', (data) => {
 
-        if (data.toString('utf8') == 'a') {
-            _isReadSend = true
+        if (!_isReadSend) {
+
+            if (data.toString('utf8') == 'a') {
+                _isReadSend = true
+            }
+        } else {
+            Chart.update(data[0])
         }
-        console.log(data.toString('utf8'))
     })
 }
 
@@ -83,7 +90,6 @@ function arduinoWrite(messaje) {
         _arduino.write(messaje);
         _arduino.drain((err) => {
             if (err) return console.log(err)
-            console.log('Escritura exitosa')
             if (messaje === 's') {
                 arduinoClose()
             }
@@ -134,17 +140,33 @@ function desconectArduinoAction(comPort) {
 }
 
 
+function readVoltArduino() {
+    arduinoWrite('r');
+}
+
+
 $('#sendMessage').on('click', () => {
     if (_isConectArduino) {
-        console.log('se va enviar mensaje');
-
-        let m = (_isReadSend) ? 'r' : 'square'
-
-        arduinoWrite(m);
-
+        if (!_isReadSend) {
+            arduinoWrite('square');
+        } else {
+            if (!_isReading) {
+                $('#sendMessage').addClass('disabled');
+                _timer = setInterval(readVoltArduino, 100);
+                $('#stopMessage').removeClass('disabled');
+                _isReading = true;
+            }
+        }
     } else {
         console.log('Arduino desconectado')
     }
+})
+
+$('#stopMessage').on('click', () => {
+    clearInterval(_timer);
+    $('#stopMessage').addClass('disabled');
+    $('#sendMessage').removeClass('disabled');
+    _isReading = false;
 })
 
 exports.setEvent = () => {
