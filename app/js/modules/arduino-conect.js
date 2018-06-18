@@ -1,5 +1,5 @@
 const SerialPort = require('serialport');
-const Chart = require('./grafico').chart;
+const Chart = require('./grafico').Chart;
 
 let _isConectArduino = false
 let _arduino = null;
@@ -144,6 +144,12 @@ function readVoltArduino() {
     arduinoWrite('r');
 }
 
+$('#voltDiv').change(() => {
+    var value = $('#voltDiv')[0].value
+    var value = (value > 0) ? (value * 4) * 51 : ((1 / (-1 * value)) * 4) * 51;
+    //console.log(value)
+    Chart.setVoltDiv(value)
+})
 
 $('#sendMessage').on('click', () => {
     if (_isConectArduino) {
@@ -166,6 +172,7 @@ $('#stopMessage').on('click', () => {
     clearInterval(_timer);
     $('#stopMessage').addClass('disabled');
     $('#sendMessage').removeClass('disabled');
+    Chart.reset();
     _isReading = false;
 })
 
