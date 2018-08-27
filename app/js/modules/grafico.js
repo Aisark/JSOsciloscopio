@@ -26,7 +26,7 @@ var options = {
 
     axisY: {
         type: Chartist.FixedScaleAxis,
-        showLabel: true,
+        showLabel: false,
         high: _high,
         low: _low,
         divisor: _divisor,
@@ -44,7 +44,7 @@ function updateDataSeries(newdata) {
         options.showLine = true;
     }
 
-    dataSeries.push(newdata - Math.floor((Math.random() * 255) + 1));
+    dataSeries.push(newdata /*- Math.floor((Math.random() * 255) + 1)*/ );
 
     chart.update(data, options);
 }

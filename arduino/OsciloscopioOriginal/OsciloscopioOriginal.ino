@@ -4,7 +4,7 @@ void setup()
   Serial.begin(9600);
   analogReference(EXTERNAL);
 
-  Inicializa();
+  inicializador();
 }
 
 void loop()
@@ -33,7 +33,7 @@ int Get_Instruccion()
 
 void Salir()
 {
-  Inicializa(); //Loop en inicializa esperando nueva inicializacion
+  inicializador(); //Loop en inicializa esperando nueva inicializacion
 }
 
 void Analog_Read()
@@ -47,7 +47,7 @@ void Analog_Read()
 
 //Inicializamos la comunicacion serial
 //Debe mandar una secuencia de caracteres tal que cumplan con el criterio "square"
-void Inicializa()
+void inicializador()
 {
   int caracter[6];
   int i = 0;
@@ -72,21 +72,5 @@ void Inicializa()
         }
       } 
   }
-  /*
-  115
-
-113
-
-117
-
-97
-
-114
-
-101
-
-13
-
-*/
-  //Termina While
+ 
 }

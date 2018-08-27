@@ -19,6 +19,8 @@ let _configArduino = {
 function conectArduino(comPort) {
     let port = (comPort.includes('COM')) ? comPort : `/dev/${comPort}`
 
+    $(`#${comPort}`).children()[0].textContent = 'Desconectar'
+
     _arduino = new SerialPort(port, _configArduino)
 
     arduinoWatch()
@@ -45,8 +47,7 @@ function arduinoWatch() {
  */
 function arduinoOnOpen() {
     _arduino.on('open', function() {
-        _isConectArduino = true
-        console.log('arduino conectado')
+        _isConectArduino = true;
     });
 }
 
@@ -55,8 +56,6 @@ function arduinoOnOpen() {
  */
 function arduinoOnClose() {
     _arduino.on('close', () => {
-        console.log('Conexión terminada')
-
         _isConectArduino = false
         _isReadSend = false
     })
@@ -76,7 +75,8 @@ function arduinoRead() {
                 _isReadSend = true
             }
         } else {
-            Chart.update(data[0])
+            let numero = parseInt(data.toString('utf8'), 10)
+            Chart.update(numero)
         }
     })
 }
@@ -97,9 +97,12 @@ function arduinoWrite(messaje) {
     }
 }
 
+let globalCOMPort = '';
+
 function arduinoClose() {
     _arduino.close(() => {
-        console.log('Cerrando conexión')
+        $(`#${globalCOMPort}`).children()[0].textContent = 'Conectar'
+        globalCOMPort = ''
     })
 }
 
@@ -121,9 +124,6 @@ function eventArduino() {
  * @param {String} comPort Ruta del puerto del arduino conectado
  */
 function conectArduinoAction(comPort) {
-
-    $(`#${comPort} > i`).removeClass('fa-plug').addClass('fa-check')
-
     conectArduino(comPort)
 }
 
@@ -132,11 +132,8 @@ function conectArduinoAction(comPort) {
  * @param {string} comPort Ruta del puerto del arduino conectado
  */
 function desconectArduinoAction(comPort) {
-
-    $(`#${comPort} > i`).removeClass('fa-check').addClass('fa-plug')
-
+    globalCOMPort = comPort;
     arduinoWrite('s')
-
 }
 
 

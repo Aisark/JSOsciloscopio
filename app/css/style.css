@@ -41,3 +41,7 @@ body {
 .card {
     border: 0;
 }
+
+td {
+    vertical-align: middle !important;
+}
